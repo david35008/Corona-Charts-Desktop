@@ -42,37 +42,37 @@ function Chart() {
     useEffect(() => {
         fetchSvg();
     }, []);
-    let y
-    let a =[]
-    let b = []
+    let dateForChart
+    let countryOneUv =[]
+    let countryTwoUv = []
      
     if (countrySvg1 && countrySvg2) {
-        let x = Object.entries(countrySvg1)
-        x.splice(0, 4)
-         b = x.map(a => a[1])
-         a = Object.entries(countrySvg2).map(a => a[1])
-        a.splice(0, 4)
-         y = x.map((element, index) => {
+        let countryOneData = Object.entries(countrySvg1)
+        countryOneData.splice(0, 4)
+         countryTwoUv = countryOneData.map(a => a[1])
+         countryOneUv = Object.entries(countrySvg2).map(a => a[1])
+        countryOneUv.splice(0, 4)
+         dateForChart = countryOneData.map((element, index) => {
             let newObj = {
                 name: element[0],
             }
             newObj[`${countryName1}`] = element[1]
-            newObj[`${countryName2}`] = a[index]
+            newObj[`${countryName2}`] = countryOneUv[index]
             return newObj
         })
     }
-    // console.log(y);
+
     return (
         <div>
             <h1>Corona Chart</h1>
             <LineChart
                 width={600}
                 height={300}
-                data={y}
+                data={dateForChart}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
                 <XAxis dataKey="name" />
-                <YAxis type="number" domain={[0, Math.max(...a, ...b) + 10000]} />
+                <YAxis type="number" domain={[0, Math.max(...countryOneUv, ...countryTwoUv) + 10000]} />
                 <CartesianGrid strokeDasharray="5 5" />
                 <Tooltip />
                 <Legend />
